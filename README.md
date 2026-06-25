@@ -3,7 +3,7 @@
 
 ## Project Name
 
-SmartRepair API — Computer Repair Booking and Ticket Management System
+SmartRepair API Computer Repair Booking and Ticket Management System
 
 ## Project Description
 
