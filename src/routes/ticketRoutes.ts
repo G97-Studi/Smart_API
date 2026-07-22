@@ -56,4 +56,56 @@ router.post("/", async (req: Request, res: Response) => {
     }
 });
 
+// PUT update an existing repair ticket by ID (e.g. change status/priority/cost)
+router.put("/:id", async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const { customer_id, device_id, issue, status, priority, estimated_cost } = req.body;
+
+        if (!customer_id || !device_id || !issue) {
+            res.status(400).json({ error: "customer_id, device_id, and issue are required" });
+            return;
+        }
+
+        const [result]: any = await pool.query(
+            `UPDATE RepairTickets
+             SET customer_id = ?, device_id = ?, issue = ?, status = ?, priority = ?, estimated_cost = ?
+             WHERE ticket_id = ?`,
+            [customer_id, device_id, issue, status || 'Pending', priority || 'Medium', estimated_cost || 0.00, id]
+        );
+
+        if (result.affectedRows === 0) {
+            res.status(404).json({ error: `Ticket with id ${id} not found` });
+            return;
+        }
+
+        res.status(200).json({ ticket_id: Number(id), customer_id, device_id, issue, status, priority, estimated_cost });
+    } catch (error: any) {
+        console.error("Error updating ticket:", error);
+        res.status(500).json({ message: "Failed to update ticket", error: error.message });
+    }
+});
+
+// DELETE a repair ticket by ID
+router.delete("/:id", async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+
+        const [result]: any = await pool.query(
+            "DELETE FROM RepairTickets WHERE ticket_id = ?",
+            [id]
+        );
+
+        if (result.affectedRows === 0) {
+            res.status(404).json({ error: `Ticket with id ${id} not found` });
+            return;
+        }
+
+        res.status(200).json({ message: `Ticket with id ${id} deleted` });
+    } catch (error: any) {
+        console.error("Error deleting ticket:", error);
+        res.status(500).json({ message: "Failed to delete ticket", error: error.message });
+    }
+});
+
 export default router;
