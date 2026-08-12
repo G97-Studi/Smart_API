@@ -4,6 +4,14 @@
 CREATE DATABASE IF NOT EXISTS smartrepair_db;
 USE smartrepair_db;
 
+CREATE TABLE IF NOT EXISTS Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS Customers (
     customer_id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(255) NOT NULL,
@@ -68,3 +76,11 @@ INSERT INTO Devices (customer_id, device_type, brand, model, serial_number, issu
 INSERT INTO RepairTickets (customer_id, device_id, issue, status, priority, estimated_cost) VALUES
     (1, 1, 'Motherboard diagnosis needed', 'Pending', 'High', 120.00),
     (2, 2, 'Screen replacement', 'In Progress', 'Medium', 89.99);
+
+-- No seed row for Users on purpose: passwords must go through bcrypt, and
+-- that hashing only happens in the app (src/controllers/authController.ts).
+-- Create your login account by calling POST /auth/register once the
+-- server is running, e.g.:
+--   curl -X POST http://localhost:3001/auth/register \
+--     -H "Content-Type: application/json" \
+--     -d '{"full_name":"Sona Jasmin","email":"sona@example.com","password":"changeme123"}'

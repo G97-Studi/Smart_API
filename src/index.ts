@@ -6,6 +6,9 @@ import dotenv from "dotenv";
 import customerRoutes from "./routes/customerRoutes";
 import deviceRoutes from "./routes/deviceRoutes";
 import ticketRoutes from "./routes/ticketRoutes";
+import authRoutes from "./routes/authRoutes";
+import aiRoutes from "./routes/aiRoutes";
+import { authenticateToken } from "./middleware/auth";
 
 dotenv.config();
 
@@ -16,24 +19,30 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Register routes
-app.use("/customers", customerRoutes);
-app.use("/devices", deviceRoutes);
-app.use("/tickets", ticketRoutes);
+// Public routes: no token required
+app.use("/auth", authRoutes);
 
 // Root route
 app.get("/", (_req, res) => {
     res.json({ message: "SmartRepair API is running!" });
 });
 
+// Protected routes: every request below this line must carry a valid
+// "Authorization: Bearer <token>" header (Milestone 5 auth requirement).
+app.use("/customers", authenticateToken, customerRoutes);
+app.use("/devices", authenticateToken, deviceRoutes);
+app.use("/tickets", authenticateToken, ticketRoutes);
+app.use("/ai", authenticateToken, aiRoutes);
+
 // Start server
 app.listen(port, () => {
     console.log(`✅ SmartRepair API running on http://localhost:${port}`);
     console.log(`\n📋 Available endpoints:`);
-    console.log(`  GET  /customers`);
-    console.log(`  POST /customers (bonus)`);
-    console.log(`  GET  /devices`);
-    console.log(`  POST /devices (bonus)`);
-    console.log(`  GET  /tickets`);
-    console.log(`  POST /tickets (bonus)`);
+    console.log(`  POST /auth/register`);
+    console.log(`  POST /auth/login`);
+    console.log(`  POST /auth/logout`);
+    console.log(`  GET/POST/PUT/DELETE  /customers   (auth required)`);
+    console.log(`  GET/POST/PUT/DELETE  /devices     (auth required)`);
+    console.log(`  GET/POST/PUT/DELETE  /tickets     (auth required)`);
+    console.log(`  POST /ai/suggest                  (auth required)`);
 });
