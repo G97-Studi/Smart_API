@@ -7,3 +7,4 @@ vite.config.ts.timestamp-*.mjs
 *.log
 .DS_Store
 .vscode/
+docs/SmartRepair_Milestone5_Documentation.docx
