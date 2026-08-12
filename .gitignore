@@ -8,3 +8,4 @@ vite.config.ts.timestamp-*.mjs
 .DS_Store
 .vscode/
 docs/SmartRepair_Milestone5_Documentation.docx
+docs/viva-prep-m5.md
