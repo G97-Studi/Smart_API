@@ -1,5 +1,8 @@
 node_modules/
 dist/
+dist2/
+*.tsbuildinfo
+vite.config.ts.timestamp-*.mjs
 .env
 *.log
 .DS_Store
