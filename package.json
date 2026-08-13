@@ -1,0 +1,42 @@
+{
+  "name": "smartrepair-api",
+  "version": "1.0.0",
+  "description": "SmartRepair API - Computer Repair Booking and Ticket Management System",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/G97-Studi/Smart_API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/G97-Studi/Smart_API/issues"
+  },
+  "homepage": "https://github.com/G97-Studi/Smart_API#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.14.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.15.3",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
